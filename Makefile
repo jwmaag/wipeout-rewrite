@@ -49,7 +49,7 @@ ifeq ($(UNAME_S), Darwin)
 
 # Linux ------------------------------------------------------------------------
 
-else ifeq ($(UNAME_S), Linux)
+else ifeq ($(UNAME_S), $(filter $(UNAME_S), Linux, FreeBSD))
 	ifeq ($(RENDERER), GL)
 		L_FLAGS := $(L_FLAGS) -lGLEW
 
@@ -59,6 +59,11 @@ else ifeq ($(UNAME_S), Linux)
 		else
 			L_FLAGS := $(L_FLAGS) -lOpenGL
 		endif
+	endif
+
+	ifeq ($(UNAME_S), FreeBSD)
+		C_FLAGS += -I/usr/local/include
+		L_FLAGS += -L/usr/local/lib
 	endif
 
 	L_FLAGS_SDL = -lSDL2
